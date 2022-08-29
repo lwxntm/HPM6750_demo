@@ -289,6 +289,10 @@
     <folder Name="DIYBSP">
       <file file_name="../../DIYBSP/bsp_board_spi2.c" />
       <file file_name="../../DIYBSP/bsp_board_spi2.h" />
+      <file file_name="../../DIYBSP/bsp_lcd.c" />
+      <file file_name="../../DIYBSP/bsp_lcd.h" />
+      <file file_name="../../DIYBSP/bsp_mchtmr.c" />
+      <file file_name="../../DIYBSP/bsp_mchtmr.h" />
     </folder>
   </project>
   <configuration

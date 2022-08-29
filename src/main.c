@@ -11,24 +11,25 @@
 #include <stdio.h>
 
 #include "bsp_board_spi2.h"
+#include "bsp_lcd.h"
+#include "bsp_mchtmr.h"
 hpm_stat_t stat;
 
-uint8_t wbuff[10] = {0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9};
-uint8_t rbuff[10] = {0};
-
+uint32_t tmp0 = 0;
 int main(void) {
   int u;
-  board_init();
-  board_spi2_init();
+  board_init();      // SDK自身的初始化
+  bsp_lcd_init();    // LCD的初始化
+  bsp_mchtmr_init(); // mchtmr的初始化，用于提供系统滴答时钟
   while (1) {
-    board_delay_ms(2000);
-    printf("SPI-Master transfer starts.\n");
-    stat = board_spi2_write_bytes((uint8_t *)wbuff, ARRAY_SIZE(wbuff));
-    if (stat == status_success) {
-      printf("SPI-Master transfer successful ends.\n");
-    } else {
-      printf("SPI-Master transfer error[%d]!\n", stat);
+    mchtmr_ticks = 0;
+    for (uint32_t i = 0; i < 25; i++) {
+      LCD_Clear(RED);
+      LCD_Clear(BLUE);
+      LCD_Clear(GREEN);
+      LCD_Clear(GRED);
     }
+    tmp0 = bsp_mchtmr_get_ticks();
+    printf("刷屏100次耗时：%d  ms \n", tmp0);
   }
-  return 0;
 }

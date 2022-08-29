@@ -29,7 +29,7 @@ void board_spi2_init(void) {
   /* set SPI sclk frequency for master */
   spi_master_get_default_timing_config(&timing_config);
   timing_config.master_config.clk_src_freq_in_hz = BOARD_APP_SPI_CLK_SRC_FREQ;
-  timing_config.master_config.sclk_freq_in_hz = BOARD_APP_SPI_SCLK_FREQ;
+  timing_config.master_config.sclk_freq_in_hz = BOARD_APP_SPI_CLK_SRC_FREQ;
   spi_master_timing_init(BOARD_APP_SPI_BASE, &timing_config);
   printf("SPI-Master transfer timing is configured.\n");
   printf("SPI-Master transfer source clock frequency: %dHz\n", timing_config.master_config.clk_src_freq_in_hz);
@@ -78,7 +78,7 @@ void board_spi2_trans_mode_change(spi_trans_mode_t trans_moden) {
     control_config.common_config.trans_mode = trans_moden;
 }
 
-hpm_stat_t board_spi2_write_bytes(uint8_t *pwbuff, uint32_t size) {
+hpm_stat_t board_spi2_write_bytes(const uint8_t *pwbuff, uint32_t size) {
   board_spi2_trans_mode_change(spi_trans_write_only);
   hpm_stat_t stat = spi_transfer(BOARD_APP_SPI_BASE,
       &control_config,
